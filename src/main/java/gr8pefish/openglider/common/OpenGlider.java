@@ -1,6 +1,5 @@
 package gr8pefish.openglider.common;
 
-import gr8pefish.openglider.client.event.ClientEventHandler;
 import gr8pefish.openglider.common.capabilities.OpenGliderCapabilities;
 import gr8pefish.openglider.common.event.ServerEventHandler;
 import gr8pefish.openglider.common.lib.ModInfo;
@@ -8,7 +7,7 @@ import gr8pefish.openglider.common.network.PacketHandler;
 import gr8pefish.openglider.common.proxy.IProxy;
 import gr8pefish.openglider.common.registry.ItemRegistry;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -26,8 +25,8 @@ public class OpenGlider {
     //Creative Tab
     public static final CreativeTabs creativeTab = new CreativeTabs(ModInfo.MODID) {
         @Override
-        public Item getTabIconItem() {
-            return ItemRegistry.glider;
+        public ItemStack getTabIconItem() {
+            return new ItemStack(ItemRegistry.glider, 1);
         }
     };
 

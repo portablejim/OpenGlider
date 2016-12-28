@@ -40,7 +40,7 @@ public class ItemHangGlider extends Item {
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
+    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
         ItemStack chestItem = player.getItemStackFromSlot(EntityEquipmentSlot.CHEST);
         if (!(chestItem != null && chestItem.getItem() instanceof ItemElytra)) {
             OpenGliderCapabilities.setIsGliderDeployed(player, !OpenGliderCapabilities.getIsGliderDeployed(player)); //set it to whatever it is not
@@ -48,11 +48,11 @@ public class ItemHangGlider extends Item {
             //sending packet to nearby players
             if (!world.isRemote) {
                 EntityTracker tracker = world.getMinecraftServer().worldServerForDimension(player.dimension).getEntityTracker();
-                tracker.sendToAllTrackingEntity(player, PacketHandler.HANDLER.getPacketFrom(new PacketUpdateClientTarget(player, OpenGliderCapabilities.getIsGliderDeployed(player))));
+                tracker.sendToTracking(player, PacketHandler.HANDLER.getPacketFrom(new PacketUpdateClientTarget(player, OpenGliderCapabilities.getIsGliderDeployed(player))));
             }
         }
 
-        return ActionResult.newResult(EnumActionResult.SUCCESS, itemStack);
+        return new ActionResult(EnumActionResult.SUCCESS, player.getHeldItem(hand));
     }
 
 }

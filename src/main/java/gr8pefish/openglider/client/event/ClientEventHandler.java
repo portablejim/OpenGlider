@@ -71,7 +71,7 @@ public class ClientEventHandler extends Gui {
     public void onRenderOverlay(RenderGameOverlayEvent.Pre event){
         if (Minecraft.getMinecraft().gameSettings.thirdPersonView == 0) {//first person perspective
             if (event.getType() == RenderGameOverlayEvent.ElementType.POTION_ICONS) {
-                EntityPlayer playerEntity = Minecraft.getMinecraft().thePlayer;
+                EntityPlayer playerEntity = Minecraft.getMinecraft().player;
                 if (OpenGliderCapabilities.getIsGliderDeployed(playerEntity)) {
                     if (OpenGliderPlayerHelper.shouldBeGliding(playerEntity)) {
 //                        renderTriangle(event);
@@ -98,7 +98,7 @@ public class ClientEventHandler extends Gui {
     @SubscribeEvent
     public void onRenderOverlay(RenderWorldLastEvent event){
         if (Minecraft.getMinecraft().gameSettings.thirdPersonView == 0) {//first person perspective
-            EntityPlayer playerEntity = Minecraft.getMinecraft().thePlayer;
+            EntityPlayer playerEntity = Minecraft.getMinecraft().player;
             if (OpenGliderCapabilities.getIsGliderDeployed(playerEntity)) {
                 if (OpenGliderPlayerHelper.shouldBeGliding(playerEntity)) {
                     renderTriangle(event);
@@ -111,7 +111,7 @@ public class ClientEventHandler extends Gui {
 
     private void renderTriangle(RenderWorldLastEvent event){
 
-        EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
+        EntityPlayer entityPlayer = Minecraft.getMinecraft().player;
 
         GlStateManager.pushMatrix(); //push matrix
         Minecraft.getMinecraft().getTextureManager().bindTexture(ModInfo.MODEL_GLIDER_TEXTURE_RL); //bind texture

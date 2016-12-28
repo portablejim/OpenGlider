@@ -5,6 +5,7 @@ import gr8pefish.openglider.common.lib.ModInfo;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -23,7 +24,7 @@ public class ItemHangGliderPart extends Item {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(Item id, CreativeTabs creativeTab, List<ItemStack> list) {
+    public void getSubItems(Item id, CreativeTabs tab, NonNullList<ItemStack> list) {
         for (int i = 0; i < names.length; i++)
             list.add(new ItemStack(id, 1, i));
     }

@@ -33,7 +33,7 @@ public class OpenGliderPlayerHelper {
                 player.fallDistance = 0f; /* Don't like getting hurt :( */
             }
         }
-        if (player.worldObj.isRemote) {
+        if (player.world.isRemote) {
             player.limbSwing = 0;
             player.limbSwingAmount = 0; //ToDo: Ask which side this should be set on (assuming client)
         }
