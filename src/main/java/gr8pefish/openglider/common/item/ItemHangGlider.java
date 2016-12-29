@@ -22,7 +22,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
-import java.util.Iterator;
 
 public class ItemHangGlider extends Item {
 
@@ -30,6 +29,8 @@ public class ItemHangGlider extends Item {
         super();
         setCreativeTab(OpenGlider.creativeTab);
         setUnlocalizedName(ModInfo.MODID +":" + ModInfo.ITEM_GLIDER_NAME);
+
+        //Add different icons for if the glider is deployed or not
         this.addPropertyOverride(new ResourceLocation("deployed"), new IItemPropertyGetter() {
             @SideOnly(Side.CLIENT)
             public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn) {
@@ -42,14 +43,23 @@ public class ItemHangGlider extends Item {
     @Override
     public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
         ItemStack chestItem = player.getItemStackFromSlot(EntityEquipmentSlot.CHEST);
-        if (!(chestItem != null && chestItem.getItem() instanceof ItemElytra)) {
-            OpenGliderCapabilities.setIsGliderDeployed(player, !OpenGliderCapabilities.getIsGliderDeployed(player)); //set it to whatever it is not
 
-            //sending packet to nearby players
+        //if no elytra equipped
+        if (!(chestItem != null && chestItem.getItem() instanceof ItemElytra)) {
+
+            //old deployment state
+            boolean isDeployed = OpenGliderCapabilities.getIsGliderDeployed(player);
+
+            //toggle state of glider deployment
+            OpenGliderCapabilities.setIsGliderDeployed(player, !isDeployed);
+
+            //client only
             if (!world.isRemote) {
+                //send packet to nearby players to update visually
                 EntityTracker tracker = world.getMinecraftServer().worldServerForDimension(player.dimension).getEntityTracker();
                 tracker.sendToTracking(player, PacketHandler.HANDLER.getPacketFrom(new PacketUpdateClientTarget(player, OpenGliderCapabilities.getIsGliderDeployed(player))));
             }
+
         }
 
         return new ActionResult(EnumActionResult.SUCCESS, player.getHeldItem(hand));

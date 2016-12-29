@@ -8,7 +8,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 public class ItemRegistry {
@@ -28,14 +27,14 @@ public class ItemRegistry {
                 " sl",
                 "sll",
                 "lll",
-                's', "stickWood", 'l', "leather"));
+                's', "stickWood", 'l', "leather").setMirrored(false));
 
         //Right wing
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemRegistry.gliderPart, 1, 1),
                 "ls ",
                 "lls",
                 "lll",
-                's', "stickWood", 'l', "leather"));
+                's', "stickWood", 'l', "leather").setMirrored(false));
 
         //Scaffolding
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemRegistry.gliderPart, 1, 2),
@@ -50,7 +49,7 @@ public class ItemRegistry {
                 "lsr",
                 "   ",
                 'l', new ItemStack(ItemRegistry.gliderPart, 1, 0), 's', new ItemStack(ItemRegistry.gliderPart, 1, 2),
-                'r', new ItemStack(ItemRegistry.gliderPart, 1, 1)));
+                'r', new ItemStack(ItemRegistry.gliderPart, 1, 1)).setMirrored(false));
     }
 
     public static void registerRenders(){

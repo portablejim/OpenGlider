@@ -1,6 +1,5 @@
 package gr8pefish.openglider.common.helper;
 
-import gr8pefish.openglider.common.capabilities.OpenGliderCapabilities;
 import gr8pefish.openglider.common.item.ItemHangGlider;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -8,10 +7,15 @@ import net.minecraft.util.EnumHand;
 
 public class OpenGliderPlayerHelper {
 
+    /**
+     * Updates the position of the player when gliding.
+     * Glider is assumed to be deployed already.
+     *
+     * @param player - the player
+     */
     public static void updatePosition(EntityPlayer player){
-        if (!shouldBeGliding(player)) {
-            //OpenGliderCapabilities.setIsGliderDeployed(player, false); //ToDo: Test server and client or just server //ToDo: Make it active when right clicked, like in 1.7 version
-        } else {
+
+        if (shouldBeGliding(player)) {
             if (player.motionY < 0) {
                 final double horizontalSpeed;
                 final double verticalSpeed;
@@ -32,12 +36,13 @@ public class OpenGliderPlayerHelper {
                 player.motionZ += z;
                 player.fallDistance = 0f; /* Don't like getting hurt :( */
             }
+
+            //no wild arm swinging while flying
+            if (player.world.isRemote) {
+                player.limbSwing = 0;
+                player.limbSwingAmount = 0;
+            }
         }
-        if (player.world.isRemote) {
-            player.limbSwing = 0;
-            player.limbSwingAmount = 0; //ToDo: Ask which side this should be set on (assuming client)
-        }
-//        player.setPositionAndRotation(player.posX, player.posY, player.posZ, player.rotationYaw, 10); //ToDo: figure out how to rotate player horizontal (RenderPlayer.rotateCorpse)
     }
 
     public static boolean shouldBeGliding(EntityPlayer player){

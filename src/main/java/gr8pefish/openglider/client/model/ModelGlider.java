@@ -1,8 +1,6 @@
 package gr8pefish.openglider.client.model;
 
 import gr8pefish.openglider.common.helper.OpenGliderPlayerHelper;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -50,23 +48,19 @@ public class ModelGlider extends ModelBase {
     }
 
     /**
-     * Set all the details of the backpack to render.
+     * Set all the details of the glider to render.
      */
     @Override
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn){
 
         EntityPlayer player = (EntityPlayer) entityIn;
-        final float rotation = interpolateRotation(player.prevRotationYaw, player.rotationYaw);
 
-        if (Minecraft.getMinecraft().currentScreen instanceof GuiInventory) //the main inventory screen that renders the player
-            GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F); //set it to the back (no rotation)
-        else //in world/elsewhere
-            GlStateManager.rotate(180.0F - rotation, 0.0F, 1.0F, 0.0F); //set rotation to align with player
+        GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F); //set it to the back (no rotation)
 
         GlStateManager.rotate(ONGROUND_ROTATION, 1, 0, 0); //on same plane as player
         GlStateManager.rotate(180F, 0, 2, 0); //front facing
         if (player.isSneaking())
-            GlStateManager.translate(0, -0.5, 0); //move to on the back (but not as much)
+            GlStateManager.translate(0, -0.5, 0); //move to on the back (more away than fpp)
         else
             GlStateManager.translate(0, -0.35, 0); //move to on the back (quite close)
 
@@ -77,14 +71,4 @@ public class ModelGlider extends ModelBase {
 
     }
 
-    /**
-     * Get the correct rotation of the player, so that the backpack can be parallel to the player's back.
-     * @param prevRotation - initial rotation (yaw)
-     * @param nextRotation - next rotation (yaw)
-     * @return - angle to rotate the backpack to
-     */
-    private static float interpolateRotation(float prevRotation, float nextRotation) {
-        float rotation = nextRotation - prevRotation;
-        return prevRotation * rotation;
-    }
 }
